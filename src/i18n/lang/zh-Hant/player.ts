@@ -48,11 +48,12 @@ export default {
   },
   playBar: {
     expand: '展開歌詞',
-    collapse: '收合歌詞',
+    collapse: '收起歌詞',
     like: '喜歡',
     lyric: '歌詞',
+    download: '下載',
     noSongPlaying: '沒有正在播放的歌曲',
-    eq: '等化器',
+    eq: '均衡器',
     playList: '播放清單',
     reparse: '重新解析',
     playMode: {
@@ -133,11 +134,14 @@ export default {
     songsRemaining: '剩餘{count}首歌'
   },
   playList: {
+    downloadAll: '下載清單全部',
+    allDownloaded: '清單歌曲已全部下載',
+    downloadQueued: '已加入下載佇列：{count} 首（已跳過 {skipped} 首）',
     clearAll: '清空播放清單',
     alreadyEmpty: '播放清單已經為空',
     cleared: '已清空播放清單',
     empty: '播放清單為空',
     clearConfirmTitle: '清空播放清單',
-    clearConfirmContent: '這將清空所有播放清單中的歌曲並停止目前播放。是否繼續？'
+    clearConfirmContent: '這將清空所有播放清單中的歌曲並停止當前播放。是否繼續？'
   }
 };

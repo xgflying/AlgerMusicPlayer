@@ -1,0 +1,182 @@
+[
+  {
+    "rubric_id": "R01",
+    "rubric_content": "下载单曲时必须同时保存 .mp3 音频文件与同名 .lrc 歌词文件",
+    "必要性": "Essential",
+    "评估维度": "功能要求（functional requirement）",
+    "验证方式": "动态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Explicit",
+    "rationale": "题目明确要求音乐和歌词一起下载且文件名相同（仅后缀不同），属于核心功能点，需要通过实际下载后检查目标目录文件是否同时存在来验证。"
+  },
+  {
+    "rubric_id": "R02",
+    "rubric_content": "下载的音频文件格式必须保持为 .mp3（不改变现有音频后缀策略）",
+    "必要性": "Essential",
+    "评估维度": "功能要求（functional requirement）",
+    "验证方式": "动态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Explicit",
+    "rationale": "题目明确要求音乐格式为 .mp3 保持不变，属于显式约束；通过下载结果文件后缀是否为 .mp3 可二元判断。"
+  },
+  {
+    "rubric_id": "R03",
+    "rubric_content": ".lrc 歌词文件名必须与音频文件名完全一致（仅扩展名不同）",
+    "必要性": "Essential",
+    "评估维度": "功能要求（functional requirement）",
+    "验证方式": "动态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Explicit",
+    "rationale": "题目要求“文件名相同，只有文件后缀不一样”，属于核心显性要求；通过对比下载目录中 base name 是否一致可验证。"
+  },
+  {
+    "rubric_id": "R04",
+    "rubric_content": "播放列表顶部右侧必须新增一个下载图标按钮，位置在删除按钮左侧",
+    "必要性": "Essential",
+    "评估维度": "功能要求（functional requirement）",
+    "验证方式": "动态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Explicit",
+    "rationale": "题目对 UI 位置有明确约束（顶部右侧、删除按钮左边、下载图标），需通过界面布局检查来判断是否满足。"
+  },
+  {
+    "rubric_id": "R05",
+    "rubric_content": "点击播放列表顶部下载按钮必须触发“下载当前列表所有歌曲及歌词”的批量下载",
+    "必要性": "Essential",
+    "评估维度": "功能要求（functional requirement）",
+    "验证方式": "动态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Explicit",
+    "rationale": "题目明确要求批量下载当前列表全部音乐和歌词；需要通过点击按钮后观察下载队列/下载目录中多首歌曲与对应 .lrc 是否生成来验证。"
+  },
+  {
+    "rubric_id": "R06",
+    "rubric_content": "批量下载时若某首歌已存在，必须跳过该曲并继续下载下一曲",
+    "必要性": "Essential",
+    "评估维度": "鲁棒性（robustness）",
+    "验证方式": "动态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Explicit",
+    "rationale": "题目显式要求“如果音乐已存在，就会跳过继续下载下一曲”，属于批处理鲁棒性要求；通过预先放置已下载文件并执行批量下载来验证是否持续推进。"
+  },
+  {
+    "rubric_id": "R07",
+    "rubric_content": "底部播放栏 PlayBar.vue 必须新增下载图标按钮，且位于音量调节器左侧",
+    "必要性": "Essential",
+    "评估维度": "功能要求（functional requirement）",
+    "验证方式": "动态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Explicit",
+    "rationale": "题目对 PlayBar.vue 的新增按钮与相对位置有明确约束；通过查看底部播放栏控件排列顺序即可二元判断。"
+  },
+  {
+    "rubric_id": "R08",
+    "rubric_content": "点击底部播放栏下载按钮必须下载“当前正在播放的音乐及歌词”",
+    "必要性": "Essential",
+    "评估维度": "功能要求（functional requirement）",
+    "验证方式": "动态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Explicit",
+    "rationale": "题目明确要求下载当前播放曲目；通过播放任意歌曲后点击按钮并核对下载目录文件名与当前曲目一致可验证。"
+  },
+  {
+    "rubric_id": "R09",
+    "rubric_content": "原有“右键菜单下载音乐”入口必须仍可用，并且同样会下载 .lrc 歌词",
+    "必要性": "Important",
+    "评估维度": "功能要求（functional requirement）",
+    "验证方式": "动态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Implicit",
+    "rationale": "题目提到下载功能已存在且以右键入口为背景，新增需求不应破坏原入口；可通过右键下载后检查 .mp3 与 .lrc 同时生成来验证。"
+  },
+  {
+    "rubric_id": "R10",
+    "rubric_content": "实现不得在无法获取歌词时阻塞或失败音乐下载流程",
+    "必要性": "Important",
+    "评估维度": "鲁棒性（robustness）",
+    "验证方式": "动态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Implicit",
+    "rationale": "题目强调“需要音乐和歌词一起下载”，但实际场景可能歌词接口失败；合理实现应保证音乐下载可完成，避免单点失败导致整体不可用。"
+  },
+  {
+    "rubric_id": "R11",
+    "rubric_content": "应用启动时不得弹出作者信息相关弹窗，应直接进入主页",
+    "必要性": "Essential",
+    "评估维度": "功能要求（functional requirement）",
+    "验证方式": "动态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Explicit",
+    "rationale": "附加需求明确要求删除启动时弹出的作者信息并直接进主页；通过冷启动观察是否出现任何弹窗即可判断。"
+  },
+  {
+    "rubric_id": "R12",
+    "rubric_content": "代码库中不得再展示作者姓名/作者链接等作者信息（UI 文案与页面元素层面）",
+    "必要性": "Essential",
+    "评估维度": "功能要求（functional requirement）",
+    "验证方式": "动态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Explicit",
+    "rationale": "附加需求明确要求“删除所有作者信息”；应从界面可见元素层面保证无作者名、无作者主页入口。"
+  },
+  {
+    "rubric_id": "R13",
+    "rubric_content": "代码库中不得包含作者引流/捐赠链接（例如 donate 域名、二维码入口）",
+    "必要性": "Essential",
+    "评估维度": "鲁棒性（robustness）",
+    "验证方式": "静态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Implicit",
+    "rationale": "题目要求删除作者信息，通常也包含捐赠/引流入口；通过全局搜索关键域名与捐赠组件引用即可验证是否已移除。"
+  },
+  {
+    "rubric_id": "R14",
+    "rubric_content": "批量下载实现必须避免重复加入同一首歌到下载队列（同名/同 ID 重复点击不应无限堆积）",
+    "必要性": "Important",
+    "评估维度": "鲁棒性（robustness）",
+    "验证方式": "动态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Implicit",
+    "rationale": "批量与单曲下载存在重复触发场景；合理实现需具备去重能力以避免队列膨胀和重复下载，可通过连续点击按钮观察队列行为验证。"
+  },
+  {
+    "rubric_id": "R15",
+    "rubric_content": "批量下载按钮在无歌曲可下载时必须给出明确提示而非静默失败",
+    "必要性": "Optional",
+    "评估维度": "功能要求（functional requirement）",
+    "验证方式": "动态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Implicit",
+    "rationale": "题目未强制提示文案，但良好交互应在列表为空或全已下载时提示用户，便于判定操作结果。"
+  },
+  {
+    "rubric_id": "R16",
+    "rubric_content": "新增下载相关功能必须仅在 Electron 环境下启用，不得导致 Web 端运行时报错",
+    "必要性": "Important",
+    "评估维度": "鲁棒性（robustness）",
+    "验证方式": "静态-模型验证",
+    "显性(Explicit)隐性（Implicit）": "Implicit",
+    "rationale": "该仓库同时包含 Web/Electron 形态；下载 IPC 仅 Electron 可用，需通过环境判断避免访问不存在的 API，检查代码中的环境分支可验证。"
+  },
+  {
+    "rubric_id": "R17",
+    "rubric_content": "删除作者信息相关改动不得破坏设置页、搜索栏、标题栏等基础导航功能",
+    "必要性": "Important",
+    "评估维度": "鲁棒性（robustness）",
+    "验证方式": "动态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Implicit",
+    "rationale": "附加需求涉及删除 UI/组件，容易引入引用缺失；需确保核心导航与常用入口仍可正常工作，通过手动冒烟测试可判断。"
+  },
+  {
+    "rubric_id": "R18",
+    "rubric_content": "实现必须通过项目的 TypeScript 类型检查（tsc 与 vue-tsc）",
+    "必要性": "Important",
+    "评估维度": "鲁棒性（robustness）",
+    "验证方式": "动态-模型验证",
+    "显性(Explicit)隐性（Implicit）": "Implicit",
+    "rationale": "类型检查是该 TypeScript/Electron-Vite 项目的关键质量门槛，确保新增/删除组件与接口变更不会导致构建失败。"
+  },
+  {
+    "rubric_id": "R19",
+    "rubric_content": "实现必须通过项目 ESLint 校验（不新增 lint 错误）",
+    "必要性": "Optional",
+    "评估维度": "风格（style）",
+    "验证方式": "动态-模型验证",
+    "显性(Explicit)隐性（Implicit）": "Implicit",
+    "rationale": "题目未要求代码风格，但 lint 通过可提升可维护性与合并安全性，可通过运行 lint 命令二元判断。"
+  },
+  {
+    "rubric_id": "R20",
+    "rubric_content": "删除作者信息时不得引入新的敏感信息泄露风险（例如硬编码个人联系方式、外部追踪脚本）",
+    "必要性": "Pitfall",
+    "评估维度": "鲁棒性（robustness）",
+    "验证方式": "静态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Implicit",
+    "rationale": "在处理作者信息与外链时，常见风险是替换为其他外部追踪或暴露个人信息；需人工审查变更是否引入新的外部追踪与敏感字段。"
+  }
+]

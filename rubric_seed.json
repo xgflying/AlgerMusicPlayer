@@ -1,0 +1,182 @@
+[
+  {
+    "rubric_id": "R01",
+    "rubric_content": "代码必须在播放列表每个音乐右键菜单中保留下载音乐选项",
+    "必要性": "Essential",
+    "评估维度": "功能要求（functional requirement）",
+    "验证方式": "静态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Explicit",
+    "rationale": "题目明确说明下载功能已存在，需保留右键下载入口，是核心显性要求，需人工检查代码是否保留该菜单选项。"
+  },
+  {
+    "rubric_id": "R02",
+    "rubric_content": "下载音乐时必须同时下载对应的歌词文件（.lrc格式）",
+    "必要性": "Essential",
+    "评估维度": "功能要求（functional requirement）",
+    "验证方式": "动态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Explicit",
+    "rationale": "题目核心要求是音乐和歌词一起下载，是明确的显式要求，需通过实际下载验证是否生成同名.lrc文件。"
+  },
+  {
+    "rubric_id": "R03",
+    "rubric_content": "音乐文件格式必须保持为.mp3，歌词文件格式必须为.lrc",
+    "必要性": "Essential",
+    "评估维度": "功能要求（functional requirement）",
+    "验证方式": "静态-模型验证",
+    "显性(Explicit)隐性（Implicit）": "Explicit",
+    "rationale": "题目明确规定文件格式，是显式要求，可通过代码自动化验证是否使用正确的文件扩展名。"
+  },
+  {
+    "rubric_id": "R04",
+    "rubric_content": "音乐文件与歌词文件必须使用相同的文件名（仅扩展名不同）",
+    "必要性": "Essential",
+    "评估维度": "功能要求（functional requirement）",
+    "验证方式": "动态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Explicit",
+    "rationale": "题目要求文件名相同，仅扩展名不同，是显式要求，需通过实际下载验证文件命名是否符合要求。"
+  },
+  {
+    "rubric_id": "R05",
+    "rubric_content": "必须在播放列表顶部右侧新增批量下载按钮（位于删除按钮左侧）",
+    "必要性": "Essential",
+    "评估维度": "功能要求（functional requirement）",
+    "验证方式": "静态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Explicit",
+    "rationale": "题目明确要求新增批量下载按钮及位置，是显式要求，需人工检查UI是否包含该按钮且位置正确。"
+  },
+  {
+    "rubric_id": "R06",
+    "rubric_content": "批量下载按钮必须使用下载图标",
+    "必要性": "Important",
+    "评估维度": "风格（style）",
+    "验证方式": "静态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Explicit",
+    "rationale": "题目要求按钮使用下载图标，是显式风格要求，需人工检查按钮图标是否符合要求。"
+  },
+  {
+    "rubric_id": "R07",
+    "rubric_content": "批量下载功能必须下载当前列表所有音乐和歌词",
+    "必要性": "Essential",
+    "评估维度": "功能要求（functional requirement）",
+    "验证方式": "动态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Explicit",
+    "rationale": "题目要求批量下载当前列表所有音乐，是显式功能要求，需通过实际操作验证功能是否完整。"
+  },
+  {
+    "rubric_id": "R08",
+    "rubric_content": "批量下载时若音乐已存在必须跳过该音乐继续下载下一曲",
+    "必要性": "Essential",
+    "评估维度": "功能要求（functional requirement）",
+    "验证方式": "动态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Explicit",
+    "rationale": "题目明确要求跳过已存在音乐，是显式功能要求，需通过实际下载验证是否跳过已存在文件。"
+  },
+  {
+    "rubric_id": "R09",
+    "rubric_content": "必须在底部音乐播放栏新增下载按钮（位于音量调节器左侧）",
+    "必要性": "Essential",
+    "评估维度": "功能要求（functional requirement）",
+    "验证方式": "静态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Explicit",
+    "rationale": "题目明确要求在播放栏新增下载按钮及位置，是显式要求，需人工检查UI是否包含该按钮且位置正确。"
+  },
+  {
+    "rubric_id": "R10",
+    "rubric_content": "底部播放栏下载按钮必须使用下载图标",
+    "必要性": "Important",
+    "评估维度": "风格（style）",
+    "验证方式": "静态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Explicit",
+    "rationale": "题目要求按钮使用下载图标，是显式风格要求，需人工检查按钮图标是否符合要求。"
+  },
+  {
+    "rubric_id": "R11",
+    "rubric_content": "底部播放栏下载按钮点击后必须下载当前正在播放的音乐和歌词",
+    "必要性": "Essential",
+    "评估维度": "功能要求（functional requirement）",
+    "验证方式": "动态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Explicit",
+    "rationale": "题目要求点击播放栏按钮下载当前播放音乐，是显式功能要求，需通过实际操作验证功能是否正确。"
+  },
+  {
+    "rubric_id": "R12",
+    "rubric_content": "必须删除应用开启时弹出的作者信息相关文件和内容",
+    "必要性": "Essential",
+    "评估维度": "功能要求（functional requirement）",
+    "验证方式": "静态-模型验证",
+    "显性(Explicit)隐性（Implicit）": "Explicit",
+    "rationale": "题目附加需求要求删除作者信息弹窗，是显式要求，可通过代码自动化验证是否删除相关文件和内容。"
+  },
+  {
+    "rubric_id": "R13",
+    "rubric_content": "应用启动后必须直接进入主页，无作者信息弹窗",
+    "必要性": "Essential",
+    "评估维度": "功能要求（functional requirement）",
+    "验证方式": "动态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Explicit",
+    "rationale": "题目要求一打开项目就进入主页，是显式要求，需通过实际启动验证是否直接进入主页。"
+  },
+  {
+    "rubric_id": "R14",
+    "rubric_content": "必须删除所有作者信息相关内容",
+    "必要性": "Essential",
+    "评估维度": "功能要求（functional requirement）",
+    "验证方式": "静态-模型验证",
+    "显性(Explicit)隐性（Implicit）": "Explicit",
+    "rationale": "题目附加需求要求删除所有作者信息，是显式要求，可通过代码自动化验证是否删除所有相关内容。"
+  },
+  {
+    "rubric_id": "R15",
+    "rubric_content": "下载功能必须保留原有下载逻辑，仅补充歌词下载功能",
+    "必要性": "Important",
+    "评估维度": "鲁棒性（robustness）",
+    "验证方式": "静态-模型验证",
+    "显性(Explicit)隐性（Implicit）": "Implicit",
+    "rationale": "题目说明下载功能已存在，需保留原有逻辑，是隐性要求，可通过代码自动化验证是否保留原有下载逻辑。"
+  },
+  {
+    "rubric_id": "R16",
+    "rubric_content": "歌词文件内容必须符合.lrc格式规范",
+    "必要性": "Important",
+    "评估维度": "功能要求（functional requirement）",
+    "验证方式": "静态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Implicit",
+    "rationale": "题目要求歌词文件为.lrc格式，隐含要求符合.lrc格式规范，需人工检查歌词文件内容是否符合格式要求。"
+  },
+  {
+    "rubric_id": "R17",
+    "rubric_content": "批量下载功能必须处理大列表时不会出现性能问题",
+    "必要性": "Important",
+    "评估维度": "鲁棒性（robustness）",
+    "验证方式": "动态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Implicit",
+    "rationale": "批量下载大列表时需保证性能，是隐性鲁棒性要求，需通过实际操作验证性能是否可接受。"
+  },
+  {
+    "rubric_id": "R18",
+    "rubric_content": "下载功能必须处理网络异常情况，避免程序崩溃",
+    "必要性": "Important",
+    "评估维度": "鲁棒性（robustness）",
+    "验证方式": "动态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Implicit",
+    "rationale": "下载功能需处理网络异常，是隐性鲁棒性要求，需通过模拟网络异常验证程序是否稳定。"
+  },
+  {
+    "rubric_id": "R19",
+    "rubric_content": "代码必须保持原有代码风格和命名规范",
+    "必要性": "Important",
+    "评估维度": "风格（style）",
+    "验证方式": "静态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Implicit",
+    "rationale": "代码需保持原有风格，是隐性风格要求，需人工检查代码是否符合原有风格规范。"
+  },
+  {
+    "rubric_id": "R20",
+    "rubric_content": "代码必须添加必要的注释说明新增功能",
+    "必要性": "Optional",
+    "评估维度": "风格（style）",
+    "验证方式": "静态-人工验证",
+    "显性(Explicit)隐性（Implicit）": "Implicit",
+    "rationale": "代码需添加注释说明新增功能，是隐性风格要求，需人工检查代码是否包含必要注释。"
+  }
+]

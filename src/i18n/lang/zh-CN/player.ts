@@ -51,6 +51,7 @@ export default {
     collapse: '收起歌词',
     like: '喜欢',
     lyric: '歌词',
+    download: '下载',
     noSongPlaying: '没有正在播放的歌曲',
     eq: '均衡器',
     playList: '播放列表',
@@ -133,6 +134,9 @@ export default {
     songsRemaining: '剩余{count}首歌'
   },
   playList: {
+    downloadAll: '下载列表全部',
+    allDownloaded: '列表歌曲已全部下载',
+    downloadQueued: '已加入下载队列：{count} 首（已跳过 {skipped} 首）',
     clearAll: '清空播放列表',
     alreadyEmpty: '播放列表已经为空',
     cleared: '已清空播放列表',

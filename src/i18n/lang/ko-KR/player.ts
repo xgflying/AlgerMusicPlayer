@@ -52,6 +52,7 @@ export default {
     collapse: '가사 접기',
     like: '좋아요',
     lyric: '가사',
+    download: '다운로드',
     noSongPlaying: '재생 중인 곡이 없습니다',
     eq: '이퀄라이저',
     playList: '재생 목록',
@@ -133,6 +134,9 @@ export default {
     songsRemaining: '남은 곡 수 {count}곡'
   },
   playList: {
+    downloadAll: '목록 전체 다운로드',
+    allDownloaded: '목록의 곡이 모두 다운로드되어 있습니다',
+    downloadQueued: '다운로드 대기열에 추가: {count}곡(건너뜀 {skipped}곡)',
     clearAll: '재생 목록 비우기',
     alreadyEmpty: '재생 목록이 이미 비어있습니다',
     cleared: '재생 목록이 비워졌습니다',

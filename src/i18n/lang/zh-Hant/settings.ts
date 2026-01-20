@@ -229,7 +229,7 @@ export default {
     gotoUpdate: '前往更新',
     gotoGithub: '前往 Github',
     author: '作者',
-    authorDesc: 'algerkong 點個star🌟呗',
+    authorDesc: '',
     messages: {
       checkError: '檢查更新失敗，請稍後重試'
     }

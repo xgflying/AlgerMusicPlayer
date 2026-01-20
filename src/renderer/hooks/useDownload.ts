@@ -91,11 +91,16 @@ const createDownloadManager = () => {
         // 标记为已通知
         notifiedDownloads.add(data.filename);
 
+        if (data.error === '该歌曲已下载' || data.error === '该歌曲已在下载队列中') {
+          activeDownloads.delete(data.filename);
+          return;
+        }
+
         // 显示失败通知
         message.error(
-          t('songItem.message.downloadFailed', {
+          t('download.message.downloadFailed', {
             filename: data.filename,
-            error: data.error || '未知错误'
+            error: data.error || t('download.status.unknown')
           })
         );
 
@@ -150,61 +155,57 @@ export const useDownload = () => {
   // 初始化事件监听器
   downloadManager.initEventListeners(message, t);
 
+  const buildFilename = (song: SongResult) => {
+    const artistNames = (song.ar || song.song?.artists)?.map((a) => a.name).join(',');
+    return `${song.name} - ${artistNames}`;
+  };
+
+  const isSongDownloaded = async (songId: number | undefined) => {
+    if (!ipcRenderer || !songId) return false;
+    const result = await ipcRenderer.invoke('check-song-downloaded', songId);
+    return !!result?.isDownloaded;
+  };
+
+  const enqueueDownload = async (song: SongResult) => {
+    const musicUrl = (await getSongUrl(song.id as number, cloneDeep(song), true)) as any;
+    if (!musicUrl) {
+      throw new Error(t('songItem.message.getUrlFailed'));
+    }
+
+    const filename = buildFilename(song);
+
+    if (downloadManager.hasDownload(filename)) {
+      return;
+    }
+
+    downloadManager.addDownload(filename);
+
+    const songData = cloneDeep(song);
+    songData.ar = songData.ar || songData.song?.artists;
+
+    ipcRenderer?.send('download-music', {
+      url: typeof musicUrl === 'string' ? musicUrl : musicUrl.url,
+      filename,
+      songInfo: {
+        ...songData,
+        downloadTime: Date.now()
+      },
+      type: musicUrl.type
+    });
+  };
+
   /**
    * 下载单首音乐
    * @param song 歌曲信息
    * @returns Promise<void>
    */
   const downloadMusic = async (song: SongResult) => {
-    if (isDownloading.value) {
-      message.warning(t('songItem.message.downloading'));
-      return;
-    }
-
     try {
-      isDownloading.value = true;
-
-      const musicUrl = (await getSongUrl(song.id as number, cloneDeep(song), true)) as any;
-      if (!musicUrl) {
-        throw new Error(t('songItem.message.getUrlFailed'));
-      }
-
-      // 构建文件名
-      const artistNames = (song.ar || song.song?.artists)?.map((a) => a.name).join(',');
-      const filename = `${song.name} - ${artistNames}`;
-
-      // 检查是否已在下载
-      if (downloadManager.hasDownload(filename)) {
-        isDownloading.value = false;
-        return;
-      }
-
-      // 添加到活动下载集合
-      downloadManager.addDownload(filename);
-
-      const songData = cloneDeep(song);
-      songData.ar = songData.ar || songData.song?.artists;
-
-      // 发送下载请求
-      ipcRenderer?.send('download-music', {
-        url: typeof musicUrl === 'string' ? musicUrl : musicUrl.url,
-        filename,
-        songInfo: {
-          ...songData,
-          downloadTime: Date.now()
-        },
-        type: musicUrl.type
-      });
+      await enqueueDownload(song);
 
       message.success(t('songItem.message.downloadQueued'));
-
-      // 简化的监听逻辑，基本通知由全局监听器处理
-      setTimeout(() => {
-        isDownloading.value = false;
-      }, 2000);
     } catch (error: any) {
       console.error('Download error:', error);
-      isDownloading.value = false;
       message.error(error.message || t('songItem.message.downloadFailed'));
     }
   };
@@ -215,11 +216,6 @@ export const useDownload = () => {
    * @returns Promise<void>
    */
   const batchDownloadMusic = async (songs: SongResult[]) => {
-    if (isDownloading.value) {
-      message.warning(t('favorite.downloading'));
-      return;
-    }
-
     if (songs.length === 0) {
       message.warning(t('favorite.selectSongsFirst'));
       return;
@@ -229,27 +225,28 @@ export const useDownload = () => {
       isDownloading.value = true;
       message.success(t('favorite.downloading'));
 
-      let successCount = 0;
-      let failCount = 0;
+      let queuedCount = 0;
+      let failedCount = 0;
+      let skippedCount = 0;
       const totalCount = songs.length;
 
-      // 下载进度追踪
-      const trackProgress = () => {
-        if (successCount + failCount === totalCount) {
-          isDownloading.value = false;
-          message.success(t('favorite.downloadSuccess'));
+      const songsToDownload: SongResult[] = [];
+      for (const song of songs) {
+        if (await isSongDownloaded(song.id as number)) {
+          skippedCount++;
+          continue;
         }
-      };
+        songsToDownload.push(song);
+      }
 
       // 并行获取所有歌曲的下载链接
       const downloadUrls = await Promise.all(
-        songs.map(async (song) => {
+        songsToDownload.map(async (song) => {
           try {
-            const data = (await getSongUrl(song.id, song, true)) as any;
+            const data = (await getSongUrl(song.id, cloneDeep(song), true)) as any;
             return { song, ...data };
           } catch (error) {
             console.error(`获取歌曲 ${song.name} 下载链接失败:`, error);
-            failCount++;
             return { song, url: null };
           }
         })
@@ -258,18 +255,16 @@ export const useDownload = () => {
       // 开始下载有效的链接
       downloadUrls.forEach(({ song, url, type }) => {
         if (!url) {
-          failCount++;
-          trackProgress();
+          failedCount++;
           return;
         }
 
         const songData = cloneDeep(song);
-        const filename = `${song.name} - ${(song.ar || song.song?.artists)?.map((a) => a.name).join(',')}`;
+        const filename = buildFilename(song);
 
         // 检查是否已在下载
         if (downloadManager.hasDownload(filename)) {
-          failCount++;
-          trackProgress();
+          skippedCount++;
           return;
         }
 
@@ -289,11 +284,17 @@ export const useDownload = () => {
           type
         });
 
-        successCount++;
+        queuedCount++;
       });
 
-      // 所有下载开始后，检查进度
-      trackProgress();
+      isDownloading.value = false;
+      if (queuedCount > 0) {
+        message.success(t('favorite.downloadSuccess'));
+      } else if (skippedCount === totalCount) {
+        message.info(t('favorite.downloadSuccess'));
+      } else {
+        message.error(t('favorite.downloadFailed'));
+      }
     } catch (error) {
       console.error('下载失败:', error);
       isDownloading.value = false;
@@ -302,9 +303,93 @@ export const useDownload = () => {
     }
   };
 
+  /**
+   * 下载播放列表全部音乐
+   * @param songs 播放列表歌曲
+   * @returns Promise<void>
+   */
+  const downloadPlayListAll = async (songs: SongResult[]) => {
+    if (songs.length === 0) {
+      message.info(t('player.playList.empty'));
+      return;
+    }
+
+    try {
+      isDownloading.value = true;
+
+      const songsToDownload: SongResult[] = [];
+      let skippedCount = 0;
+
+      for (const song of songs) {
+        if (await isSongDownloaded(song.id as number)) {
+          skippedCount++;
+          continue;
+        }
+        songsToDownload.push(song);
+      }
+
+      if (songsToDownload.length === 0) {
+        isDownloading.value = false;
+        message.info(t('player.playList.allDownloaded'));
+        return;
+      }
+
+      const downloadUrls = await Promise.all(
+        songsToDownload.map(async (song) => {
+          try {
+            const data = (await getSongUrl(song.id, cloneDeep(song), true)) as any;
+            return { song, ...data };
+          } catch (error) {
+            console.error(`获取歌曲 ${song.name} 下载链接失败:`, error);
+            return { song, url: null };
+          }
+        })
+      );
+
+      let queuedCount = 0;
+      downloadUrls.forEach(({ song, url, type }) => {
+        if (!url) return;
+
+        const filename = buildFilename(song);
+        if (downloadManager.hasDownload(filename)) return;
+
+        downloadManager.addDownload(filename);
+
+        const songData = cloneDeep(song);
+        const songInfo = {
+          ...songData,
+          ar: songData.ar || songData.song?.artists,
+          downloadTime: Date.now()
+        };
+
+        ipcRenderer?.send('download-music', {
+          url,
+          filename,
+          songInfo,
+          type
+        });
+
+        queuedCount++;
+      });
+
+      isDownloading.value = false;
+      message.success(
+        t('player.playList.downloadQueued', {
+          count: queuedCount,
+          skipped: skippedCount
+        })
+      );
+    } catch (error: any) {
+      console.error('下载失败:', error);
+      isDownloading.value = false;
+      message.error(error.message || t('favorite.downloadFailed'));
+    }
+  };
+
   return {
     isDownloading,
     downloadMusic,
-    batchDownloadMusic
+    batchDownloadMusic,
+    downloadPlayListAll
   };
 };

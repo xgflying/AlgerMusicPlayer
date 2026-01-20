@@ -163,8 +163,7 @@ export class EQService {
       [this.source, this.equalizer, this.gainNode].forEach((node) => {
         if (node) {
           node.disconnect();
-          // 特殊清理Tuna节点
-          if (node instanceof Tuna.Equalizer) node.destroy();
+          if (typeof (node as any).destroy === 'function') (node as any).destroy();
         }
       });
 

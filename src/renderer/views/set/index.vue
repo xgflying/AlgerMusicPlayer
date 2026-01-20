@@ -482,54 +482,9 @@
           <!-- 版本信息 -->
           <setting-item :title="t('settings.about.version')">
             <template #description>
-              {{ updateInfo.currentVersion }}
-              <n-tag v-if="updateInfo.hasUpdate" type="success" class="ml-2">
-                {{ t('settings.about.hasUpdate') }} {{ updateInfo.latestVersion }}
-              </n-tag>
-            </template>
-            <template #action>
-              <div class="flex items-center gap-2 flex-wrap">
-                <n-button size="small" :loading="checking" @click="checkForUpdates(true)">
-                  {{ checking ? t('settings.about.checking') : t('settings.about.checkUpdate') }}
-                </n-button>
-                <n-button v-if="updateInfo.hasUpdate" size="small" @click="openReleasePage">
-                  {{ t('settings.about.gotoUpdate') }}
-                </n-button>
-              </div>
+              {{ appVersion }}
             </template>
           </setting-item>
-
-          <!-- 作者信息 -->
-          <setting-item
-            :title="t('settings.about.author')"
-            :description="t('settings.about.authorDesc')"
-            clickable
-            @click="openAuthor"
-          >
-            <n-button size="small" @click.stop="openAuthor">
-              <i class="ri-github-line mr-1"></i>{{ t('settings.about.gotoGithub') }}
-            </n-button>
-          </setting-item>
-        </setting-section>
-
-        <!-- 捐赠支持 -->
-        <setting-section
-          id="donation"
-          :title="t('settings.sections.donation')"
-          @ref="(el) => (sectionRefs.donation = el as HTMLElement | null)"
-        >
-          <setting-item
-            :title="t('settings.sections.donation')"
-            :description="t('donation.message')"
-          >
-            <n-button text @click="toggleDonationList">
-              <template #icon>
-                <i :class="isDonationListVisible ? 'ri-eye-line' : 'ri-eye-off-line'" />
-              </template>
-              {{ isDonationListVisible ? t('common.hide') : t('common.show') }}
-            </n-button>
-          </setting-item>
-          <donation-list v-if="isDonationListVisible" />
         </setting-section>
       </div>
       <play-bottom />
@@ -564,7 +519,6 @@ import { useI18n } from 'vue-i18n';
 
 import localData from '@/../main/set.json';
 import { getUserDetail } from '@/api/login';
-import DonationList from '@/components/common/DonationList.vue';
 import PlayBottom from '@/components/common/PlayBottom.vue';
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue';
 import ClearCacheSettings from '@/components/settings/ClearCacheSettings.vue';
@@ -578,7 +532,6 @@ import { useUserStore } from '@/store/modules/user';
 import { type Platform } from '@/types/music';
 import { isElectron, isMobile } from '@/utils';
 import { openDirectory, selectDirectory } from '@/utils/fileOperation';
-import { checkUpdate, UpdateResult } from '@/utils/update';
 
 import config from '../../../../package.json';
 import SettingItem from './SettingItem.vue';
@@ -607,6 +560,7 @@ const settingsStore = useSettingsStore();
 const userStore = useUserStore();
 const message = useMessage();
 const { t } = useI18n();
+const appVersion = config.version;
 
 // ==================== 设置数据管理 ====================
 const saveSettings = useDebounceFn((data) => {
@@ -696,45 +650,6 @@ const handleGpuAccelerationChange = (enabled: boolean) => {
     console.error('GPU加速设置更新失败:', error);
     message.error(t('settings.basic.gpuAccelerationChangeError'));
   }
-};
-
-// ==================== 更新检查 ====================
-const checking = ref(false);
-const updateInfo = ref<UpdateResult>({
-  hasUpdate: false,
-  latestVersion: '',
-  currentVersion: config.version,
-  releaseInfo: null
-});
-
-const checkForUpdates = async (isClick = false) => {
-  checking.value = true;
-  try {
-    const result = await checkUpdate(config.version);
-    if (result) {
-      updateInfo.value = result;
-      if (!result.hasUpdate && isClick) {
-        message.success(t('settings.about.latest'));
-      }
-    } else if (isClick) {
-      message.success(t('settings.about.latest'));
-    }
-  } catch (error) {
-    console.error('检查更新失败:', error);
-    if (isClick) {
-      message.error(t('settings.about.messages.checkError'));
-    }
-  } finally {
-    checking.value = false;
-  }
-};
-
-const openReleasePage = () => {
-  settingsStore.showUpdateModal = true;
-};
-
-const openAuthor = () => {
-  window.open(setData.value.authorUrl);
 };
 
 const restartApp = () => {
@@ -829,14 +744,6 @@ watch(
   },
   { immediate: true }
 );
-
-// ==================== 捐赠列表 ====================
-const isDonationListVisible = ref(localStorage.getItem('donationListVisible') !== 'false');
-
-const toggleDonationList = () => {
-  isDonationListVisible.value = !isDonationListVisible.value;
-  localStorage.setItem('donationListVisible', isDonationListVisible.value.toString());
-};
 
 // ==================== 弹窗控制 ====================
 const showClearCacheModal = ref(false);
@@ -970,8 +877,7 @@ const settingSections: SettingSectionConfig[] = [
   { id: 'application', electron: true },
   { id: 'network', electron: true },
   { id: 'system', electron: true },
-  { id: 'about' },
-  { id: 'donation' }
+  { id: 'about' }
 ];
 
 const navSections = computed(() => {
@@ -991,8 +897,7 @@ const sectionRefs = reactive<Record<string, HTMLElement | null>>({
   application: null,
   network: null,
   system: null,
-  about: null,
-  donation: null
+  about: null
 });
 
 const scrollToSection = async (sectionId: string) => {
@@ -1026,7 +931,6 @@ const handleScroll = (e: any) => {
 
 // ==================== 初始化 ====================
 onMounted(async () => {
-  checkForUpdates();
   if (setData.value.proxyConfig) {
     proxyForm.value = { ...setData.value.proxyConfig };
   }

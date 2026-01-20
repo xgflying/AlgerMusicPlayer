@@ -165,6 +165,16 @@ export function initializeFileManager() {
           console.error('Error deleting file:', error);
         }
 
+        // 删除对应歌词文件（同名 .lrc）
+        try {
+          const lyricPath = path.join(path.dirname(filePath), `${path.parse(filePath).name}.lrc`);
+          if (fs.existsSync(lyricPath)) {
+            await fs.promises.unlink(lyricPath);
+          }
+        } catch (error) {
+          console.error('Error deleting lyric file:', error);
+        }
+
         // 删除对应的歌曲信息
         const store = new Store();
         const songInfos = store.get('downloadedSongs', {}) as Record<string, any>;
@@ -639,6 +649,21 @@ async function downloadMusic(
       // 继续处理，不影响音乐下载
     }
 
+    // 保存歌词文件（.lrc），文件名与音乐一致
+    if (lyricsContent?.trim()) {
+      try {
+        const lyricFilePath = path.join(
+          path.dirname(finalFilePath),
+          `${path.parse(finalFilePath).name}.lrc`
+        );
+        await fs.promises.writeFile(lyricFilePath, lyricsContent.replace(/\r\n/g, '\n'), {
+          encoding: 'utf8'
+        });
+      } catch (error) {
+        console.error('写入歌词文件失败:', error);
+      }
+    }
+
     // 下载封面
     let coverImageBuffer: Buffer | null = null;
     try {
@@ -743,15 +768,19 @@ async function downloadMusic(
     } else if (['.flac'].includes(fileFormat)) {
       try {
         const tagMap: FlacTagMap = {
-          TITLE: songInfo?.name,
-          ARTIST: artistNames,
+          TITLE: songInfo?.name || filename,
+          ARTIST: artistNames || '未知艺术家',
           ALBUM: songInfo?.al?.name || songInfo?.song?.album?.name || songInfo?.name || filename,
-          LYRICS: lyricsContent || '',
-          TRACKNUMBER: songInfo?.no ? String(songInfo.no) : undefined,
-          DATE: songInfo?.publishTime
-            ? new Date(songInfo.publishTime).getFullYear().toString()
-            : undefined
+          LYRICS: lyricsContent || ''
         };
+
+        if (songInfo?.no) {
+          tagMap.TRACKNUMBER = String(songInfo.no);
+        }
+
+        if (songInfo?.publishTime) {
+          tagMap.DATE = new Date(songInfo.publishTime).getFullYear().toString();
+        }
 
         await writeFlacTags(
           {
@@ -914,7 +943,7 @@ function mergeLyrics(
   const mergedLines: string[] = [];
 
   // 对每个时间戳，组合原始歌词和翻译
-  for (const [timeTag, originalContent] of originalLyrics.entries()) {
+  for (const [timeTag, originalContent] of Array.from(originalLyrics.entries())) {
     const translatedContent = translatedLyrics.get(timeTag);
 
     // 添加原始歌词行

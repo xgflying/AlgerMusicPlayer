@@ -233,9 +233,9 @@ export default {
     gotoUpdate: '更新へ',
     gotoGithub: 'Githubへ',
     author: '作者',
-    authorDesc: 'algerkong スターを付けてください🌟',
+    authorDesc: '',
     messages: {
-      checkError: '更新確認に失敗しました。後でもう一度お試しください'
+      checkError: '更新の確認に失敗しました。しばらくしてからもう一度お試しください'
     }
   },
   validation: {

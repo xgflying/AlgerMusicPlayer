@@ -2,9 +2,7 @@
   "name": "AlgerMusicPlayer",
   "version": "5.0.0",
   "description": "Alger Music Player",
-  "author": "Alger <algerkc@qq.com>",
   "main": "./out/main/index.js",
-  "homepage": "https://github.com/algerkong/AlgerMusicPlayer",
   "scripts": {
     "prepare": "husky",
     "format": "prettier --write ./src",
@@ -203,8 +201,7 @@
         }
       ],
       "artifactName": "${productName}-${version}-linux-${arch}.${ext}",
-      "category": "Audio",
-      "maintainer": "Alger <algerkc@qq.com>"
+      "category": "Audio"
     },
     "nsis": {
       "oneClick": false,

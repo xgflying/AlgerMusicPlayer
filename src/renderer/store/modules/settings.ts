@@ -18,7 +18,6 @@ export const useSettingsStore = defineStore('settings', () => {
   const theme = ref<ThemeType>(getCurrentTheme());
   const isMobile = ref(false);
   const isMiniMode = ref(false);
-  const showUpdateModal = ref(false);
   const showArtistDrawer = ref(false);
   const currentArtistId = ref<number | null>(null);
   const systemFonts = ref<{ label: string; value: string }[]>([
@@ -143,10 +142,6 @@ export const useSettingsStore = defineStore('settings', () => {
     isMiniMode.value = value;
   };
 
-  const setShowUpdateModal = (value: boolean) => {
-    showUpdateModal.value = value;
-  };
-
   const setShowArtistDrawer = (show: boolean) => {
     showArtistDrawer.value = show;
     if (!show) {
@@ -262,7 +257,6 @@ export const useSettingsStore = defineStore('settings', () => {
     theme,
     isMobile,
     isMiniMode,
-    showUpdateModal,
     showArtistDrawer,
     currentArtistId,
     systemFonts,
@@ -271,7 +265,6 @@ export const useSettingsStore = defineStore('settings', () => {
     toggleTheme,
     setAutoTheme,
     setMiniMode,
-    setShowUpdateModal,
     setShowArtistDrawer,
     setCurrentArtistId,
     setSystemFonts,

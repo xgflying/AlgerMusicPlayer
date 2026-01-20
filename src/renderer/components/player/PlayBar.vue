@@ -94,6 +94,16 @@
       </div>
     </div>
     <div class="audio-button">
+      <n-tooltip v-if="isElectron" trigger="hover" :z-index="9999999">
+        <template #trigger>
+          <i
+            class="iconfont ri-download-line"
+            :class="{ 'disabled-icon': !playMusic?.id }"
+            @click="playMusic?.id && handleDownloadCurrent()"
+          ></i>
+        </template>
+        {{ playMusic?.id ? t('player.playBar.download') : t('player.playBar.noSongPlaying') }}
+      </n-tooltip>
       <div class="audio-volume custom-slider" @wheel.prevent="handleVolumeWheel">
         <div class="volume-icon" @click="mute">
           <i class="iconfont" :class="getVolumeIcon"></i>
@@ -182,6 +192,7 @@ import {
   textColors
 } from '@/hooks/MusicHook';
 import { useArtist } from '@/hooks/useArtist';
+import { useDownload } from '@/hooks/useDownload';
 import { usePlayMode } from '@/hooks/usePlayMode';
 import { audioService } from '@/services/audioService';
 import { isBilibiliIdMatch, usePlayerStore } from '@/store/modules/player';
@@ -192,6 +203,7 @@ const playerStore = usePlayerStore();
 const settingsStore = useSettingsStore();
 const { t } = useI18n();
 const message = useMessage();
+const { downloadMusic } = useDownload();
 // 是否播放
 const play = computed(() => playerStore.isPlay);
 // 背景颜色
@@ -247,6 +259,11 @@ const handleSliderDragEnd = () => {
   // 直接应用最终的拖动值
   audioService.seek(dragValue.value);
   nowTime.value = dragValue.value;
+};
+
+const handleDownloadCurrent = async () => {
+  if (!playMusic.value) return;
+  await downloadMusic(playMusic.value as any);
 };
 
 // 格式化提示文本，根据拖动状态显示不同的时间

@@ -20,6 +20,18 @@
     <div class="playlist-panel-header">
       <div class="title">{{ t('player.playBar.playList') }}</div>
       <div class="header-actions">
+        <n-tooltip v-if="isElectron" trigger="hover">
+          <template #trigger>
+            <div
+              class="action-btn"
+              :class="{ 'opacity-50 pointer-events-none': playList.length === 0 || isDownloading }"
+              @click="playList.length > 0 && !isDownloading && handleDownloadAll()"
+            >
+              <i class="iconfont ri-download-line"></i>
+            </div>
+          </template>
+          {{ t('player.playList.downloadAll') }}
+        </n-tooltip>
         <n-tooltip trigger="hover">
           <template #trigger>
             <div class="action-btn" @click="handleClearPlaylist">
@@ -62,14 +74,16 @@ import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import SongItem from '@/components/common/SongItem.vue';
+import { useDownload } from '@/hooks/useDownload';
 import { usePlayerStore } from '@/store/modules/player';
 import type { SongResult } from '@/types/music';
-import { isMobile } from '@/utils';
+import { isElectron, isMobile } from '@/utils';
 
 const { t } = useI18n();
 const message = useMessage();
 const dialog = useDialog();
 const playerStore = usePlayerStore();
+const { downloadPlayListAll, isDownloading } = useDownload();
 
 // 内部状态控制组件的可见性
 const internalVisible = ref(false);
@@ -179,6 +193,10 @@ const scrollToCurrentSong = () => {
 // 删除歌曲
 const handleDeleteSong = (song: SongResult) => {
   playerStore.removeFromPlayList(song.id as number);
+};
+
+const handleDownloadAll = async () => {
+  await downloadPlayListAll(playList.value);
 };
 </script>
 

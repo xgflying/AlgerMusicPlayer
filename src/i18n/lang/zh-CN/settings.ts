@@ -231,7 +231,7 @@ export default {
     gotoUpdate: '前往更新',
     gotoGithub: '前往 Github',
     author: '作者',
-    authorDesc: 'algerkong 点个star🌟呗',
+    authorDesc: '',
     messages: {
       checkError: '检查更新失败，请稍后重试'
     }

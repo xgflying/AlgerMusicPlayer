@@ -52,6 +52,7 @@ export default {
     collapse: '歌詞を折りたたみ',
     like: 'いいね',
     lyric: '歌詞',
+    download: 'ダウンロード',
     noSongPlaying: '再生中の楽曲がありません',
     eq: 'イコライザー',
     playList: 'プレイリスト',
@@ -134,6 +135,9 @@ export default {
     songsRemaining: '残り{count}曲'
   },
   playList: {
+    downloadAll: 'リストを一括ダウンロード',
+    allDownloaded: 'リスト内の曲はすべてダウンロード済みです',
+    downloadQueued: 'ダウンロードキューに追加：{count} 曲（{skipped} 曲をスキップ）',
     clearAll: 'プレイリストをクリア',
     alreadyEmpty: 'プレイリストは既に空です',
     cleared: 'プレイリストをクリアしました',

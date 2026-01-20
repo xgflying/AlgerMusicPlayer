@@ -52,6 +52,7 @@ export default {
     collapse: 'Collapse Lyrics',
     like: 'Like',
     lyric: 'Lyric',
+    download: 'Download',
     noSongPlaying: 'No song playing',
     eq: 'Equalizer',
     playList: 'Play List',
@@ -137,6 +138,9 @@ export default {
     activeEnd: 'End After List'
   },
   playList: {
+    downloadAll: 'Download All',
+    allDownloaded: 'All songs are already downloaded',
+    downloadQueued: 'Queued {count} songs (skipped {skipped})',
     clearAll: 'Clear Playlist',
     alreadyEmpty: 'Playlist is already empty',
     cleared: 'Playlist cleared',
