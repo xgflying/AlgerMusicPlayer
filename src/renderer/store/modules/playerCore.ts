@@ -242,7 +242,7 @@ export const usePlayerCoreStore = defineStore(
       } else if (music.source === 'bilibili' && music?.song?.ar?.[0]) {
         title += ` - ${music.song.ar[0].name}`;
       }
-      document.title = 'AlgerMusic - ' + title;
+      document.title = 'Music ' + title;
 
       try {
         // 添加到历史记录

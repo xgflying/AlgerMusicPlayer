@@ -1,7 +1,7 @@
 {
-  "name": "AlgerMusicPlayer",
+  "name": "MusicPlayer",
   "version": "5.0.0",
-  "description": "Alger Music Player",
+  "description": "Music Player",
   "main": "./out/main/index.js",
   "scripts": {
     "prepare": "husky",
@@ -76,7 +76,7 @@
     "autoprefixer": "^10.4.22",
     "axios": "^1.13.2",
     "cross-env": "^7.0.3",
-    "electron": "^39.2.7",
+    "electron": "^30.0.0",
     "electron-builder": "^26.0.12",
     "electron-vite": "^5.0.0",
     "eslint": "^9.39.2",
@@ -118,8 +118,8 @@
     "publish": [
       {
         "provider": "github",
-        "owner": "algerkong",
-        "repo": "AlgerMusicPlayer"
+        "owner": "kong",
+        "repo": "MusicPlayer"
       }
     ],
     "extraResources": [
@@ -148,7 +148,7 @@
       "entitlements": "build/entitlements.mac.plist",
       "entitlementsInherit": "build/entitlements.mac.plist",
       "extendInfo": {
-        "NSMicrophoneUsageDescription": "AlgerMusicPlayer needs access to the microphone for audio visualization.",
+        "NSMicrophoneUsageDescription": "MusicPlayer needs access to the microphone for audio visualization.",
         "NSCameraUsageDescription": "Application requests access to the device's camera.",
         "NSDocumentsFolderUsageDescription": "Application requests access to the user's Documents folder.",
         "NSDownloadsFolderUsageDescription": "Application requests access to the user's Downloads folder."
@@ -157,7 +157,7 @@
       "identity": null,
       "type": "distribution",
       "binaries": [
-        "Contents/MacOS/AlgerMusicPlayer"
+        "Contents/MacOS/MusicPlayer"
       ]
     },
     "win": {
@@ -210,10 +210,10 @@
       "uninstallerIcon": "resources/icon.ico",
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "AlgerMusicPlayer",
+      "shortcutName": "MusicPlayer",
       "include": "build/installer.nsh",
       "deleteAppDataOnUninstall": true,
-      "uninstallDisplayName": "AlgerMusicPlayer"
+      "uninstallDisplayName": "MusicPlayer"
     }
   },
   "pnpm": {

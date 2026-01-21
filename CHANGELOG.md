@@ -18,7 +18,7 @@
 - 菜单展开状态保存 - 感谢 [harenchi](https://github.com/souvenp) 的贡献
 - 搜索建议 - 感谢 [harenchi](https://github.com/souvenp) 的贡献
 - 歌词繁体中文翻译模块，集成 OpenCC 引擎 - 感谢 [Leko](https://github.com/lekoOwO) 的贡献
-- 自定义 API源 支持 [自定义源文档](https://github.com/algerkong/AlgerMusicPlayer/blob/main/docs/custom-api-readme.md) - 感谢 [harenchi](https://github.com/souvenp) 的贡献
+- 自定义 API源 支持 [自定义源文档](https://github.com/kong/MusicPlayer/blob/main/docs/custom-api-readme.md) - 感谢 [harenchi](https://github.com/souvenp) 的贡献
 
 ### 🐛 Bug 修复
 
@@ -42,7 +42,7 @@
 
 ## 赞赏支持☕️
 
-[赞赏列表](https://donate.alger.fun/donate)
+[赞赏列表](https://donate..fun/donate)
 
 <table>
   <tr>
@@ -52,12 +52,12 @@
   </tr>
   <tr>
     <td align="center">
-      <img src="https://github.com/algerkong/algerkong/blob/main/wechat.jpg?raw=true" alt="WeChat QRcode" width="200"><br>
+      <img src="https://github.com/kong/kong/blob/main/wechat.jpg?raw=true" alt="WeChat QRcode" width="200"><br>
       <h6>☕️喝点咖啡继续干</h6>
     </td>
     <td></td>
     <td align="center">
-      <img src="https://github.com/algerkong/algerkong/blob/main/alipay.jpg?raw=true" alt="Alipay QRcode" width="200"><br>
+      <img src="https://github.com/kong/kong/blob/main/alipay.jpg?raw=true" alt="Alipay QRcode" width="200"><br>
       <h6>🍔来个汉堡</h6>
     </td>
   </tr>
