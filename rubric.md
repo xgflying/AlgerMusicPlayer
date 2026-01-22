@@ -30,7 +30,7 @@
 
 ### 技能7：标签准确标注
 
-- 能够准确为每条 Rubric 标注必要性标签（Essential/Important/Optional/Pitfall）、评估维度标签（功能要求（functional requirement）/鲁棒性（robustness）/风格（style））、验证方式标签（静态-模型验证、动态-模型验证、静态-人工验证、动态-人工验证）和显性/隐性标签（Explicit/Implicit），并给出合理的解释。例如，对于一个关于代码风格一致性的 Rubric，标注为 Important、风格（style）、静态-人工验证、Implicit，并说明理由是代码风格属于主观偏好，但对代码的可读性和可维护性有重要影响。
+- 能够准确为每条 Rubric 标注必要性标签（Essential/Important/Optional/Pitfall）、评估维度标签（功能要求（functional requirement）/鲁棒性（robustness）/风格（style））、验证方式标签（静态-模型验证、动态-模型验证）和显性/隐性标签（Explicit/Implicit），并给出合理的解释。例如，对于一个关于代码风格一致性的 Rubric，标注为 Important、风格（style）、Implicit，并说明理由是代码风格属于主观偏好，但对代码的可读性和可维护性有重要影响。
 
 ### 技能8：唯一 rubric_id 分配
 

@@ -1,182 +1,182 @@
 [
   {
     "rubric_id": "R01",
-    "rubric_content": "下载单曲时必须同时保存 .mp3 音频文件与同名 .lrc 歌词文件",
+    "rubric_content": "播放列表每个音乐右键菜单中必须保留“下载音乐”选项",
     "必要性": "Essential",
     "评估维度": "功能要求（functional requirement）",
-    "验证方式": "动态-人工验证",
+    "验证方式": "静态-模型验证",
     "显性(Explicit)隐性（Implicit）": "Explicit",
-    "rationale": "题目明确要求音乐和歌词一起下载且文件名相同（仅后缀不同），属于核心功能点，需要通过实际下载后检查目标目录文件是否同时存在来验证。"
+    "rationale": "题目明确说明下载音乐功能已存在且入口在右键菜单，要求是在此基础上补充歌词下载而非移除入口；通过静态分析菜单配置/组件代码可验证该入口是否仍存在。"
   },
   {
     "rubric_id": "R02",
-    "rubric_content": "下载的音频文件格式必须保持为 .mp3（不改变现有音频后缀策略）",
+    "rubric_content": "单曲下载时必须同时生成同名歌词文件（仅扩展名不同）",
     "必要性": "Essential",
     "评估维度": "功能要求（functional requirement）",
-    "验证方式": "动态-人工验证",
+    "验证方式": "动态-模型验证",
     "显性(Explicit)隐性（Implicit）": "Explicit",
-    "rationale": "题目明确要求音乐格式为 .mp3 保持不变，属于显式约束；通过下载结果文件后缀是否为 .mp3 可二元判断。"
+    "rationale": "题目核心要求是“音乐和歌词一起下载，并且文件名相同”；通过触发单曲下载并读取下载目录产物（同名 .mp3/.lrc）进行动态验证。"
   },
   {
     "rubric_id": "R03",
-    "rubric_content": ".lrc 歌词文件名必须与音频文件名完全一致（仅扩展名不同）",
+    "rubric_content": "下载的音乐文件扩展名必须为 .mp3，歌词文件扩展名必须为 .lrc",
     "必要性": "Essential",
     "评估维度": "功能要求（functional requirement）",
-    "验证方式": "动态-人工验证",
+    "验证方式": "静态-模型验证",
     "显性(Explicit)隐性（Implicit）": "Explicit",
-    "rationale": "题目要求“文件名相同，只有文件后缀不一样”，属于核心显性要求；通过对比下载目录中 base name 是否一致可验证。"
+    "rationale": "题目明确规定文件后缀要求，属于显式硬约束；通过代码与生成路径/文件名拼接逻辑可验证是否固定为 .mp3 与 .lrc。"
   },
   {
     "rubric_id": "R04",
-    "rubric_content": "播放列表顶部右侧必须新增一个下载图标按钮，位置在删除按钮左侧",
-    "必要性": "Essential",
+    "rubric_content": "歌词文件内容必须满足 .lrc 基本格式（含时间戳行或标准元信息行）",
+    "必要性": "Important",
     "评估维度": "功能要求（functional requirement）",
-    "验证方式": "动态-人工验证",
-    "显性(Explicit)隐性（Implicit）": "Explicit",
-    "rationale": "题目对 UI 位置有明确约束（顶部右侧、删除按钮左边、下载图标），需通过界面布局检查来判断是否满足。"
+    "验证方式": "动态-模型验证",
+    "显性(Explicit)隐性（Implicit）": "Implicit",
+    "rationale": "题目要求歌词格式为 .lrc，隐含需要满足可被播放器识别的基本 LRC 格式；通过下载后解析 .lrc 文件内容结构（时间戳/元信息行）进行动态验证。"
   },
   {
     "rubric_id": "R05",
-    "rubric_content": "点击播放列表顶部下载按钮必须触发“下载当前列表所有歌曲及歌词”的批量下载",
-    "必要性": "Essential",
-    "评估维度": "功能要求（functional requirement）",
-    "验证方式": "动态-人工验证",
-    "显性(Explicit)隐性（Implicit）": "Explicit",
-    "rationale": "题目明确要求批量下载当前列表全部音乐和歌词；需要通过点击按钮后观察下载队列/下载目录中多首歌曲与对应 .lrc 是否生成来验证。"
+    "rubric_content": "当歌词获取失败或不存在时，下载流程不得崩溃且音乐仍应正常下载",
+    "必要性": "Important",
+    "评估维度": "鲁棒性（robustness）",
+    "验证方式": "动态-模型验证",
+    "显性(Explicit)隐性（Implicit）": "Implicit",
+    "rationale": "歌词下载涉及网络与数据可用性，鲁棒处理是隐性质量要求；通过模拟无歌词/接口失败场景并观察流程是否继续且 .mp3 正常落盘进行动态验证。"
   },
   {
     "rubric_id": "R06",
-    "rubric_content": "批量下载时若某首歌已存在，必须跳过该曲并继续下载下一曲",
+    "rubric_content": "播放列表顶部右侧必须新增批量下载按钮，且位置在删除按钮左侧",
     "必要性": "Essential",
-    "评估维度": "鲁棒性（robustness）",
-    "验证方式": "动态-人工验证",
+    "评估维度": "功能要求（functional requirement）",
+    "验证方式": "静态-模型验证",
     "显性(Explicit)隐性（Implicit）": "Explicit",
-    "rationale": "题目显式要求“如果音乐已存在，就会跳过继续下载下一曲”，属于批处理鲁棒性要求；通过预先放置已下载文件并执行批量下载来验证是否持续推进。"
+    "rationale": "题目对按钮位置给出明确 UI 约束，属于显式需求；通过静态分析页面布局结构与按钮插入位置关系可验证是否位于删除按钮左侧。"
   },
   {
     "rubric_id": "R07",
-    "rubric_content": "底部播放栏 PlayBar.vue 必须新增下载图标按钮，且位于音量调节器左侧",
-    "必要性": "Essential",
-    "评估维度": "功能要求（functional requirement）",
-    "验证方式": "动态-人工验证",
+    "rubric_content": "播放列表批量下载按钮必须使用下载图标",
+    "必要性": "Important",
+    "评估维度": "风格（style）",
+    "验证方式": "静态-模型验证",
     "显性(Explicit)隐性（Implicit）": "Explicit",
-    "rationale": "题目对 PlayBar.vue 的新增按钮与相对位置有明确约束；通过查看底部播放栏控件排列顺序即可二元判断。"
+    "rationale": "题目明确要求按钮图标为下载图标，属于显式 UI 样式要求；通过静态分析图标组件/类名/资源引用可验证是否为下载图标。"
   },
   {
     "rubric_id": "R08",
-    "rubric_content": "点击底部播放栏下载按钮必须下载“当前正在播放的音乐及歌词”",
+    "rubric_content": "点击批量下载按钮后必须下载当前列表所有音乐与对应歌词",
     "必要性": "Essential",
     "评估维度": "功能要求（functional requirement）",
-    "验证方式": "动态-人工验证",
+    "验证方式": "动态-模型验证",
     "显性(Explicit)隐性（Implicit）": "Explicit",
-    "rationale": "题目明确要求下载当前播放曲目；通过播放任意歌曲后点击按钮并核对下载目录文件名与当前曲目一致可验证。"
+    "rationale": "题目明确要求“下载当前列表的所有音乐和歌词”；通过触发批量下载并核对下载目录产物数量与是否包含配套 .lrc 进行动态验证。"
   },
   {
     "rubric_id": "R09",
-    "rubric_content": "原有“右键菜单下载音乐”入口必须仍可用，并且同样会下载 .lrc 歌词",
-    "必要性": "Important",
+    "rubric_content": "批量下载遇到已存在的音乐文件时必须跳过并继续处理下一首",
+    "必要性": "Essential",
     "评估维度": "功能要求（functional requirement）",
-    "验证方式": "动态-人工验证",
-    "显性(Explicit)隐性（Implicit）": "Implicit",
-    "rationale": "题目提到下载功能已存在且以右键入口为背景，新增需求不应破坏原入口；可通过右键下载后检查 .mp3 与 .lrc 同时生成来验证。"
+    "验证方式": "动态-模型验证",
+    "显性(Explicit)隐性（Implicit）": "Explicit",
+    "rationale": "题目明确写明跳过已存在音乐并继续下载下一曲；通过预先放置同名 .mp3 并执行批量下载，检查后续歌曲仍被下载进行动态验证。"
   },
   {
     "rubric_id": "R10",
-    "rubric_content": "实现不得在无法获取歌词时阻塞或失败音乐下载流程",
+    "rubric_content": "批量下载过程中单首歌曲下载失败不得中断后续歌曲下载",
     "必要性": "Important",
     "评估维度": "鲁棒性（robustness）",
-    "验证方式": "动态-人工验证",
+    "验证方式": "动态-模型验证",
     "显性(Explicit)隐性（Implicit）": "Implicit",
-    "rationale": "题目强调“需要音乐和歌词一起下载”，但实际场景可能歌词接口失败；合理实现应保证音乐下载可完成，避免单点失败导致整体不可用。"
+    "rationale": "批量任务中单点失败不应导致整体失败是隐性鲁棒性要求；通过模拟某首下载链接失效并检查其余歌曲仍继续下载进行动态验证。"
   },
   {
     "rubric_id": "R11",
-    "rubric_content": "应用启动时不得弹出作者信息相关弹窗，应直接进入主页",
+    "rubric_content": "底部播放栏必须新增下载按钮，且位置在音量调节器左侧",
     "必要性": "Essential",
     "评估维度": "功能要求（functional requirement）",
-    "验证方式": "动态-人工验证",
+    "验证方式": "静态-模型验证",
     "显性(Explicit)隐性（Implicit）": "Explicit",
-    "rationale": "附加需求明确要求删除启动时弹出的作者信息并直接进主页；通过冷启动观察是否出现任何弹窗即可判断。"
+    "rationale": "题目对 PlayBar 的新增按钮及具体摆放位置有明确描述；通过静态分析组件模板中按钮与音量控件的相对顺序可验证位置约束。"
   },
   {
     "rubric_id": "R12",
-    "rubric_content": "代码库中不得再展示作者姓名/作者链接等作者信息（UI 文案与页面元素层面）",
-    "必要性": "Essential",
-    "评估维度": "功能要求（functional requirement）",
-    "验证方式": "动态-人工验证",
+    "rubric_content": "底部播放栏下载按钮必须使用下载图标",
+    "必要性": "Important",
+    "评估维度": "风格（style）",
+    "验证方式": "静态-模型验证",
     "显性(Explicit)隐性（Implicit）": "Explicit",
-    "rationale": "附加需求明确要求“删除所有作者信息”；应从界面可见元素层面保证无作者名、无作者主页入口。"
+    "rationale": "题目明确要求底部按钮使用下载图标；通过静态分析 PlayBar 中图标引用/类名可验证是否为下载图标。"
   },
   {
     "rubric_id": "R13",
-    "rubric_content": "代码库中不得包含作者引流/捐赠链接（例如 donate 域名、二维码入口）",
+    "rubric_content": "点击底部播放栏下载按钮必须下载当前正在播放的音乐与对应歌词",
     "必要性": "Essential",
-    "评估维度": "鲁棒性（robustness）",
-    "验证方式": "静态-人工验证",
-    "显性(Explicit)隐性（Implicit）": "Implicit",
-    "rationale": "题目要求删除作者信息，通常也包含捐赠/引流入口；通过全局搜索关键域名与捐赠组件引用即可验证是否已移除。"
+    "评估维度": "功能要求（functional requirement）",
+    "验证方式": "动态-模型验证",
+    "显性(Explicit)隐性（Implicit）": "Explicit",
+    "rationale": "题目明确规定底部按钮行为；通过切换到某首正在播放歌曲并触发按钮，检查对应 .mp3 与 .lrc 是否生成进行动态验证。"
   },
   {
     "rubric_id": "R14",
-    "rubric_content": "批量下载实现必须避免重复加入同一首歌到下载队列（同名/同 ID 重复点击不应无限堆积）",
-    "必要性": "Important",
-    "评估维度": "鲁棒性（robustness）",
-    "验证方式": "动态-人工验证",
-    "显性(Explicit)隐性（Implicit）": "Implicit",
-    "rationale": "批量与单曲下载存在重复触发场景；合理实现需具备去重能力以避免队列膨胀和重复下载，可通过连续点击按钮观察队列行为验证。"
-  },
-  {
-    "rubric_id": "R15",
-    "rubric_content": "批量下载按钮在无歌曲可下载时必须给出明确提示而非静默失败",
-    "必要性": "Optional",
-    "评估维度": "功能要求（functional requirement）",
-    "验证方式": "动态-人工验证",
-    "显性(Explicit)隐性（Implicit）": "Implicit",
-    "rationale": "题目未强制提示文案，但良好交互应在列表为空或全已下载时提示用户，便于判定操作结果。"
-  },
-  {
-    "rubric_id": "R16",
-    "rubric_content": "新增下载相关功能必须仅在 Electron 环境下启用，不得导致 Web 端运行时报错",
+    "rubric_content": "新增歌词下载不得改变原有音乐下载的保存路径与命名规则（除增加 .lrc 同名文件）",
     "必要性": "Important",
     "评估维度": "鲁棒性（robustness）",
     "验证方式": "静态-模型验证",
     "显性(Explicit)隐性（Implicit）": "Implicit",
-    "rationale": "该仓库同时包含 Web/Electron 形态；下载 IPC 仅 Electron 可用，需通过环境判断避免访问不存在的 API，检查代码中的环境分支可验证。"
+    "rationale": "题目强调下载功能已存在，隐含要求是在原逻辑上补充而非破坏既有行为；通过代码对比音乐文件路径/命名逻辑是否保持不变可验证。"
+  },
+  {
+    "rubric_id": "R15",
+    "rubric_content": "新增下载按钮与批量下载入口不得导致重复下载同一首歌（应具备去重或状态控制）",
+    "必要性": "Important",
+    "评估维度": "鲁棒性（robustness）",
+    "验证方式": "动态-模型验证",
+    "显性(Explicit)隐性（Implicit）": "Implicit",
+    "rationale": "多入口触发下载时避免重复任务是隐性质量要求；通过重复触发或同时触发两处入口，检查下载队列/产物是否出现重复进行动态验证。"
+  },
+  {
+    "rubric_id": "R16",
+    "rubric_content": "应用启动时不得弹出任何作者信息相关弹窗，必须直接进入主页",
+    "必要性": "Essential",
+    "评估维度": "功能要求（functional requirement）",
+    "验证方式": "动态-模型验证",
+    "显性(Explicit)隐性（Implicit）": "Explicit",
+    "rationale": "题目附加需求明确要求“打开项目就进入主页”并删除作者信息弹出内容；通过启动应用并检查首屏路由/窗口内容是否直接为主页进行动态验证。"
   },
   {
     "rubric_id": "R17",
-    "rubric_content": "删除作者信息相关改动不得破坏设置页、搜索栏、标题栏等基础导航功能",
-    "必要性": "Important",
-    "评估维度": "鲁棒性（robustness）",
-    "验证方式": "动态-人工验证",
-    "显性(Explicit)隐性（Implicit）": "Implicit",
-    "rationale": "附加需求涉及删除 UI/组件，容易引入引用缺失；需确保核心导航与常用入口仍可正常工作，通过手动冒烟测试可判断。"
+    "rubric_content": "必须删除所有作者信息相关展示内容（包括但不限于设置页/关于页/托盘/页面元信息）",
+    "必要性": "Essential",
+    "评估维度": "功能要求（functional requirement）",
+    "验证方式": "静态-模型验证",
+    "显性(Explicit)隐性（Implicit）": "Explicit",
+    "rationale": "题目明确提出“删除所有作者信息”；通过静态分析关键配置/文案/页面模板中的作者相关字段与字符串引用可验证是否仍残留作者信息。"
   },
   {
     "rubric_id": "R18",
-    "rubric_content": "实现必须通过项目的 TypeScript 类型检查（tsc 与 vue-tsc）",
-    "必要性": "Important",
+    "rubric_content": "删除作者信息相关功能后，项目构建/运行不得因缺失引用产生报错",
+    "必要性": "Essential",
     "评估维度": "鲁棒性（robustness）",
     "验证方式": "动态-模型验证",
     "显性(Explicit)隐性（Implicit）": "Implicit",
-    "rationale": "类型检查是该 TypeScript/Electron-Vite 项目的关键质量门槛，确保新增/删除组件与接口变更不会导致构建失败。"
+    "rationale": "移除文件/内容可能引发引用断裂，保证可正常运行是隐性必要条件；通过运行构建/启动流程并检查终端输出无引用错误进行动态验证。"
   },
   {
     "rubric_id": "R19",
-    "rubric_content": "实现必须通过项目 ESLint 校验（不新增 lint 错误）",
-    "必要性": "Optional",
-    "评估维度": "风格（style）",
-    "验证方式": "动态-模型验证",
+    "rubric_content": "下载保存文件名必须进行安全处理，禁止出现路径穿越或非法文件名导致写入到下载目录之外",
+    "必要性": "Pitfall",
+    "评估维度": "鲁棒性（robustness）",
+    "验证方式": "静态-模型验证",
     "显性(Explicit)隐性（Implicit）": "Implicit",
-    "rationale": "题目未要求代码风格，但 lint 通过可提升可维护性与合并安全性，可通过运行 lint 命令二元判断。"
+    "rationale": "文件名通常来源于远端元数据，存在注入路径分隔符风险；通过代码检查是否对文件名进行净化并固定写入下载目录可验证。"
   },
   {
     "rubric_id": "R20",
-    "rubric_content": "删除作者信息时不得引入新的敏感信息泄露风险（例如硬编码个人联系方式、外部追踪脚本）",
-    "必要性": "Pitfall",
-    "评估维度": "鲁棒性（robustness）",
-    "验证方式": "静态-人工验证",
+    "rubric_content": "新增代码需遵循项目既有代码风格与组件结构（不引入不一致的命名与结构）",
+    "必要性": "Important",
+    "评估维度": "风格（style）",
+    "验证方式": "静态-模型验证",
     "显性(Explicit)隐性（Implicit）": "Implicit",
-    "rationale": "在处理作者信息与外链时，常见风险是替换为其他外部追踪或暴露个人信息；需人工审查变更是否引入新的外部追踪与敏感字段。"
+    "rationale": "保持风格一致有助于可维护性，是隐性质量要求；通过静态分析新增代码的命名、组织方式与既有模式一致性进行验证。"
   }
 ]
